@@ -45,10 +45,10 @@ describe("Hero API Spec Test", function() {
 		it("should return correctly result, when get heroes", async function() {
 			const res = await request.get("/heroes").set("Accept", "application/json");
 			res.status.should.eql(200);
-			res.body.should.have.lengthOf(mockSimpleHeros.length);
-			res.body[0].should.have.property("id", mockSimpleHeros[0]["id"]);
-			res.body[0].should.have.property("name", mockSimpleHeros[0]["name"]);
-			res.body[0].should.have.property("image", mockSimpleHeros[0]["image"]);
+			res.body.heroes.should.have.lengthOf(mockSimpleHeros.length);
+			res.body.heroes[0].should.have.property("id", mockSimpleHeros[0]["id"]);
+			res.body.heroes[0].should.have.property("name", mockSimpleHeros[0]["name"]);
+			res.body.heroes[0].should.have.property("image", mockSimpleHeros[0]["image"]);
 		});
 	});
 
@@ -68,14 +68,14 @@ describe("Hero API Spec Test", function() {
 				.set("Password", "rocks");
 
 			res.status.should.eql(200);
-			res.body.should.have.lengthOf(mockSimpleHeros.length);
-			res.body[0].should.have.property("id", mockSimpleHeros[0]["id"]);
-			res.body[0].should.have.property("name", mockSimpleHeros[0]["name"]);
-			res.body[0].should.have.property("image", mockSimpleHeros[0]["image"]);
-			res.body[0].should.have.nested.property("profile.str", mockProfile["str"]);
-			res.body[0].should.have.nested.property("profile.agi", mockProfile["agi"]);
-			res.body[0].should.have.nested.property("profile.int", mockProfile["int"]);
-			res.body[0].should.have.nested.property("profile.luk", mockProfile["luk"]);
+			res.body.heroes.should.have.lengthOf(mockSimpleHeros.length);
+			res.body.heroes[0].should.have.property("id", mockSimpleHeros[0]["id"]);
+			res.body.heroes[0].should.have.property("name", mockSimpleHeros[0]["name"]);
+			res.body.heroes[0].should.have.property("image", mockSimpleHeros[0]["image"]);
+			res.body.heroes[0].should.have.nested.property("profile.str", mockProfile["str"]);
+			res.body.heroes[0].should.have.nested.property("profile.agi", mockProfile["agi"]);
+			res.body.heroes[0].should.have.nested.property("profile.int", mockProfile["int"]);
+			res.body.heroes[0].should.have.nested.property("profile.luk", mockProfile["luk"]);
 		});
 
 		it("should return 401 http code, when send error user of information", async function() {
