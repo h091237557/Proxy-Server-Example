@@ -17,13 +17,13 @@ const wrap = require("../help");
  * @apiSuccess {String} hero.profile.luk
  */
 router.get("/", authCheckHandle, wrap(async (req, res) => {
-    let heroes;
-    if(req.auth){
-        heroes = await heroModel.getHeros();
-    }else{
-        heroes = await heroModel.getSimpleHeros();
-    }
-    res.send({heroes});
+	let heroes;
+	if(req.auth){
+		heroes = await heroModel.getHeroes();
+	}else{
+		heroes = await heroModel.getSimpleHeroes();
+	}
+	res.send({heroes});
 }));
 
 /**
@@ -37,15 +37,15 @@ router.get("/", authCheckHandle, wrap(async (req, res) => {
  * @apiSuccess {String} profile.agi
  * @apiSuccess {String} profile.luk
  */
-router.get("/:heroId", authCheckHandle, wrap(async (req, res, next) => {
-    let hero;
-    const heroId = req.params.heroId;
-    if(req.auth){
-        hero = await heroModel.getHero(heroId); 
-    }else{
-        hero = await heroModel.getSimpleHero(heroId); 
-    }
-    res.send(hero);
+router.get("/:heroId", authCheckHandle, wrap(async (req, res) => {
+	let hero;
+	const heroId = req.params.heroId;
+	if(req.auth){
+		hero = await heroModel.getHero(heroId); 
+	}else{
+		hero = await heroModel.getSimpleHero(heroId); 
+	}
+	res.send(hero);
 }));
 
 module.exports = router;

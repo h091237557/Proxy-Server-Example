@@ -25,15 +25,15 @@ describe("Hero API Spec Test", function() {
 		sandbox = sinon.createSandbox();
 		const stub = sandbox.stub(r, "get");
 		stub.withArgs(`${config.source_server.url}/heroes`)
-		.yields(null, {statusCode:200}, mockSimpleHeros);
+			.yields(null, {statusCode:200}, mockSimpleHeros);
 		mockSimpleHeros.forEach((mockHero) => {
 			stub.withArgs(`${config.source_server.url}/heroes/${mockHero["id"]}`)
-			.yields(null,{statusCode:200}, mockHero);
+				.yields(null,{statusCode:200}, mockHero);
 			stub.withArgs(`${config.source_server.url}/heroes/${mockHero["id"]}/profile`)
-			.yields(null,{statusCode:200}, mockProfile);
+				.yields(null,{statusCode:200}, mockProfile);
 		});
 		stub.withArgs(`${config.source_server.url}/heroes/${emptyHeroId}`)
-		.yields(null, {statusCode:404}, null);
+			.yields(null, {statusCode:404}, null);
 	});
 
 	after(async function() {
@@ -53,13 +53,16 @@ describe("Hero API Spec Test", function() {
 	});
 
 	context("Get /heroes and with argument of authentication", function(){
-		const standbox_inter = sinon.createSandbox();
+		let sandbox_inter;
+		beforeEach(() => {
+			sandbox_inter = sinon.createSandbox();
+		});
 		afterEach(() => {
-			standbox_inter.restore();
+			sandbox_inter.restore();
 		});
 
 		it("should return correctly result, when send correctly of user infomration", async function() {
-			standbox_inter.stub(r, "post").withArgs(`${config.source_server.url}/auth`)
+			sandbox_inter.stub(r, "post").withArgs(`${config.source_server.url}/auth`)
 				.yields(null, { statusCode: 200 }, null);
 
 			const res = await request.get("/heroes")
@@ -79,7 +82,7 @@ describe("Hero API Spec Test", function() {
 		});
 
 		it("should return 401 http code, when send error user of information", async function() {
-			standbox_inter.stub(r, "post").withArgs(`${config.source_server.url}/auth`)
+			sandbox_inter.stub(r, "post").withArgs(`${config.source_server.url}/auth`)
 				.yields(null, { statusCode: 401 }, null);
 
 			const res = await request.get("/heroes")
@@ -92,9 +95,12 @@ describe("Hero API Spec Test", function() {
 	});
 
 	context("Get /hero/:heroId without argument of authentication", function() {
-		const standbox_inter = sinon.createSandbox();
+		let sandbox_inter;
+		beforeEach(() => {
+			sandbox_inter = sinon.createSandbox();
+		});
 		afterEach(() => {
-			standbox_inter.restore();
+			sandbox_inter.restore();
 		});
 
 		it("should correctly result, when get hero by id", async function() {
@@ -111,13 +117,16 @@ describe("Hero API Spec Test", function() {
 
 	context("Get /heroes/:heroId and with argument of authentication", function(){
 		const heroId = 1;
-		const standbox_inter = sinon.createSandbox();
+		let sandbox_inter;
+		beforeEach(() => {
+			sandbox_inter = sinon.createSandbox();
+		});
 		afterEach(() => {
-			standbox_inter.restore();
+			sandbox_inter.restore();
 		});
 
 		it("should return correctly result, when send correctly user of infomration", async function() {
-			standbox_inter.stub(r, "post").withArgs(`${config.source_server.url}/auth`)
+			sandbox_inter.stub(r, "post").withArgs(`${config.source_server.url}/auth`)
 				.yields(null, { statusCode: 200 }, null);
 
 			const res = await request.get(`/heroes/${heroId}`)
@@ -136,7 +145,7 @@ describe("Hero API Spec Test", function() {
 		});
 
 		it("should return 401 http code, when send error of user information", async function() {
-			standbox_inter.stub(r, "post").withArgs(`${config.source_server.url}/auth`)
+			sandbox_inter.stub(r, "post").withArgs(`${config.source_server.url}/auth`)
 				.yields(null, { statusCode: 401 }, null);
 
 			const res = await request.get(`/heroes/${heroId}`)
