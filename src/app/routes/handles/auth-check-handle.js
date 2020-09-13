@@ -10,14 +10,9 @@ const wrap = require("../../help");
 module.exports = wrap(async (req, res, next) => {
     const name = req.headers["name"];
     const pwd = req.headers["password"];
-    if(!name && !pwd) next();
-
-    let result;
-    try {
-        result = await authModel.auth(name, pwd);
+    if(name && pwd){
+        let result = await authModel.auth(name, pwd);
         if(result === true) req.auth = true;
-        next();
-    } catch (error) {
-        next(error);
     }
+    next();
 })

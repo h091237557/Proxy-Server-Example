@@ -17,12 +17,13 @@ const wrap = require("../help");
  * @apiSuccess {String} hero.profile.luk
  */
 router.get("/", authCheckHandle, wrap(async (req, res) => {
+    let heroes;
     if(req.auth){
-        heros = await heroModel.getHeros();
+        heroes = await heroModel.getHeros();
     }else{
-        heros = await heroModel.getSimpleHeros();
+        heroes = await heroModel.getSimpleHeros();
     }
-    res.send(heros);
+    res.send(heroes);
 }));
 
 /**

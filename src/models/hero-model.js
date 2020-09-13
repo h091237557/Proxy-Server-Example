@@ -29,20 +29,23 @@ const UnknownError = require("../errors/unknown-error");
 module.exports = {
 	/**
      * @returns {Promise<Array<Model.Hero.Simple>>}
+     * @throws {UnknownError}
      */
 	getSimpleHeros : function(){
           const url = `${config.source_server.url}/heroes`;
           return new Promise((resolve, reject) => {
                request.get(url, { json: true }, (err, res, body) => {
                     if(err) reject(err);
-                    if(res.statusCode === 200) resolve(body);
-                    if(res.statusCode !== 200) reject(new UnknownError());
+                    if(res.statusCode === 200 && !body["code"]) resolve(body);
+                    reject(new UnknownError());
                });
           });
      },
 	/**
-     * @param {String} id 
+     * @param {String} id - hero id 
      * @returns {Promise<Model.Hero.Simple>}
+     * @throws {EmptyResourceError}
+     * @throws {UnknownError}
      */
      getSimpleHero : function(id){
           const url = `${config.source_server.url}/heroes/${id}`;
@@ -51,15 +54,17 @@ module.exports = {
                     json: true
                }, (err, res, body) => {
                     if(err) reject(err);
-                    if(res.statusCode === 200) resolve(body);
+                    if(res.statusCode === 200 && !body["code"]) resolve(body);
                     if(res.statusCode === 404) reject(new EmptyResourceError());
-                    if(res.statusCode !== 200) reject(new UnknownError());
+                    reject(new UnknownError());
                });
           });
      },
      /**
-      * @param {id} id
+      * @param {String} id - hero id
       * @returns {Promise<Model.Hero>}
+      * @throws {EmptyResourceError}
+      * @throws {UnknownError}
       */
      getHero: async function(id){
           const simpleHero = await this.getSimpleHero(id);
@@ -68,6 +73,7 @@ module.exports = {
      },
      /**
       * @returns {Promise<Array<Model.Hero>>}
+      * @throws {UnknownError}
       */
      getHeros: async function(){
           const simpleHeros = await this.getSimpleHeros();
@@ -89,7 +95,7 @@ async function _getDetailHero(simpleHero){
                json: true
           }, (err, res, body) => {
                if(err) reject(err);
-               if(res.statusCode === 200){
+               if(res.statusCode === 200 && !body["code"]){
                     resolve({
                          "id": simpleHero["id"],
                          "name": simpleHero["name"],
@@ -98,7 +104,7 @@ async function _getDetailHero(simpleHero){
                     });
                }
                if(res.statusCode === 404) reject(new EmptyResourceError());
-               if(res.statusCode !== 200) reject(new UnknownError());
+               reject(new UnknownError());
           });
      });
 } 
