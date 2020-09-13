@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "npx pm2 start",
+    "stop": "npx pm2 kill",
     "test": "npx mocha tests/**/*.test.js --exit",
     "eslint": "npx eslint src/** tests/**"
   },
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/h091237557/Proxy-Server-Example#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "pm2": "^4.4.1",
     "request": "^2.88.2"
   },
   "devDependencies": {
