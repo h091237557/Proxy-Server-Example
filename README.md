@@ -6,6 +6,8 @@
 * 適合處理 api server 多，並且要進行資料處理。
 * 可以保護實際上取資料的 api server。
 
+#### [詳細的開發流程文件請參閱此 wiki](https://github.com/h091237557/Proxy-Server-Example/wiki/%E9%96%8B%E7%99%BC%E6%B5%81%E7%A8%8B)
+
 ## Tech
 
 * Nodejs V10.15.3
