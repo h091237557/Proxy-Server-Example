@@ -1,6 +1,6 @@
 
-const authModel = require("../../../models/auth-model");
-const wrap = require("../../help");
+const authModel = require("../../models/auth-model");
+const wrap = require("../help");
 /**
  * Check the argument of authentication and authenticating.
  * @param {Object} req

@@ -68,7 +68,7 @@ module.exports = {
       */
 	getHero: async function(id){
 		const simpleHero = await this.getSimpleHero(id);
-		const hero = await _getDetailHero(simpleHero);
+		const hero = await _transformToDetailHero(simpleHero);
 		return hero;
 	},
 	/**
@@ -78,7 +78,7 @@ module.exports = {
 	getHeroes: async function(){
 		const simpleHeros = await this.getSimpleHeroes();
 		const heros = await Promise.all(simpleHeros.map((simpleHero) => {
-			return _getDetailHero(simpleHero); 
+			return _transformToDetailHero(simpleHero); 
 		}));
 		return heros;
 	}
@@ -87,8 +87,9 @@ module.exports = {
 /**
 * @param {Model.Hero.Simple} hero 
 * @returns {Promise<Model.Hero>}
+* @throws {EmptyResourceError}
 */
-async function _getDetailHero(simpleHero){
+async function _transformToDetailHero(simpleHero){
 	const url = `${config.source_server.url}/heroes/${simpleHero.id}/profile`;
 	return new Promise((resolve, reject) => {
 		request.get(url,{

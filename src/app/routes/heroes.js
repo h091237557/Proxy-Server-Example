@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const authCheckHandle = require("./handles/auth-check-handle");
 const heroModel = require("../../models/hero-model");
 const wrap = require("../help");
 
@@ -16,7 +15,7 @@ const wrap = require("../help");
  * @apiSuccess {String} hero.profile.agi
  * @apiSuccess {String} hero.profile.luk
  */
-router.get("/", authCheckHandle, wrap(async (req, res) => {
+router.get("/", wrap(async (req, res) => {
 	let heroes;
 	if(req.auth){
 		heroes = await heroModel.getHeroes();
@@ -37,7 +36,7 @@ router.get("/", authCheckHandle, wrap(async (req, res) => {
  * @apiSuccess {String} profile.agi
  * @apiSuccess {String} profile.luk
  */
-router.get("/:heroId", authCheckHandle, wrap(async (req, res) => {
+router.get("/:heroId", wrap(async (req, res) => {
 	let hero;
 	const heroId = req.params.heroId;
 	if(req.auth){

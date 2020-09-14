@@ -19,8 +19,8 @@ module.exports = {
 			}, (err, res) => {
 				if(err) reject(err);
 				if(res.statusCode === 200) resolve(true);
-				if(res.statusCode === 401) reject(new UnauthorizedError("Unauthorized"));
-				reject(new UnkownError("Unkowned Error"));
+				if(res.statusCode === 401) reject(new UnauthorizedError());
+				reject(new UnkownError());
 			});
 		});
 	}
